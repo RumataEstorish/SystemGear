@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="https://sites.google.com/site/gearapplications/systemgear" version="1.0.7" viewmodes="fullscreen">
+    <tizen:application id="vBbzdCHXzh.SystemGear" package="vBbzdCHXzh" required_version="2.2"/>
+    <author href="https://sites.google.com/view/gearsoftware/applications/systemgear" email="udaljev@gmail.com">Rumata</author>
+    <content src="index.html"/>
+    <description>Full system information</description>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <icon src="icon_launcher.png"/>
+    <name>System Gear</name>
+    <tizen:privilege name="http://tizen.org/privilege/system"/>
+    <tizen:profile name="wearable"/>
+    <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
+</widget>

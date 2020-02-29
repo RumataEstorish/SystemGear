@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+
+<title>SystemGear</title>
+<link rel="stylesheet" href="lib/tau/wearable/theme/default/tau.min.css">
+<link rel="stylesheet" media="all and (-tizen-geometric-shape: circle)"
+	href="lib/tau/wearable/theme/default/tau.circle-patch-0.0.0.1.min.css">
+
+<link rel="stylesheet" href="css/systemGearStyle.css">
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="lib/tau/wearable/js/tau.min.js"></script>
+<script type="text/javascript" src="js/utils-2.1.4.4.js"></script>
+
+<script type="text/javascript" src="js/circle-helper.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<div class="ui-page" id="main">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title"></h2>
+		</header>
+		<div id="mainContent" class="ui-content">
+			<ul class="ui-listview">
+				<li><a href="#" onclick="cpuClick()">CPU</a></li>
+				<li><a href="#" onclick="storageClick()">Storage</a></li>
+				<li><a href="#" onclick="displayClick()">Display</a></li>
+				<li><a href="#" onclick="buildClick()">Platform</a></li>
+				<li><a href="#" onclick="batteryClick()">Battery</a></li>
+				<li><a href="#" onclick="peripheralClick()">Peripheral</a></li>
+				<li><a href="#" onclick="otherClick()">Other</a></li>
+				<li id="wifiMenu"><a href="#" onclick="wifiClick()">Wifi
+						network</a></li>
+				<li id="cellularMenu"><a href="#" onclick="cellularClick()">Cellular
+						network</a></li>
+				<li id="simMenu"><a href="#" onclick="simClick()">SIM</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="batteryPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Battery</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a href="#" id="batLevelLabel">Level<span
+						class="li-text-sub ui-li-sub-text" id="batLevelValue">0</span>
+				</a></li>
+				<li class="li-has-thumb-right"><label>IsCharging <img
+						id="batIsCharging" class="ui-li-thumb-right has-function" /> <!-- <img
+						 class="ui-li-thumb-right"  id="batIsCharging" />-->
+				</label></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="displayPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Display</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a>Resolution width<span
+						class="li-text-sub ui-li-sub-text" id="resWidth"></span></a></li>
+				<li class="li-has-multiline"><a>Resolution height<span
+						class="li-text-sub ui-li-sub-text" id="resHeight"></span></a>
+				<li class="li-has-multiline"><a>DPI width<span
+						class="li-text-sub ui-li-sub-text" id="dpiWidth"></span></a>
+				<li class="li-has-multiline"><a>DPI height<span
+						class="li-text-sub ui-li-sub-text" id="dpiHeight"></span></a>
+				<li class="li-has-multiline"><a>Physical width<span
+						class="li-text-sub ui-li-sub-text" id="physWidth"></span></a>
+				<li class="li-has-multiline"><a>Physical height<span
+						class="li-text-sub ui-li-sub-text" id="physHeight"></span></a>
+				<li class="li-has-multiline"><a>Brightness<span
+						class="li-text-sub ui-li-sub-text" id="brightness"></span></a>
+				<li class="li-has-multiline"><a>Multi-touch count<span
+						class="li-text-sub ui-li-sub-text" id="multiTouchCount"></span></a>
+				<li class="li-has-thumb-right"><label>Autorotation<img
+						  class="ui-li-thumb-right" id="autorotation" /></label></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="cpuPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">CPU</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a>Architecture<span
+						class="li-text-sub ui-li-sub-text" id="cpuArch"></span></a></li>
+				<li class="li-has-multiline"><a>Load<span
+						class="li-text-sub ui-li-sub-text" id="cpuLoad"></span></a>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="storagePage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Storage</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="buildPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Platform</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a>Platform name<span
+						class="li-text-sub ui-li-sub-text" id="buildPlatformName"></span></a></li>
+				<li class="li-has-multiline"><a>Platform version<span
+						class="li-text-sub ui-li-sub-text" id="buildPlatformVersion"></span></a></li>
+				<li class="li-has-multiline"><a>Web API Version<span
+						class="li-text-sub ui-li-sub-text" id="buildWebAPIVersion"></span></a></li>
+				<li class="li-has-multiline"><a>Native API Version<span
+						class="li-text-sub ui-li-sub-text" id="buildNativeAPIVersion"></span></a></li>
+				<li class="li-has-multiline"><a>Model<span
+						class="li-text-sub ui-li-sub-text" id="buildModel"></span></a></li>
+				<li class="li-has-multiline"><a>Manufacturer<span
+						class="li-text-sub ui-li-sub-text" id="buildManufacturer"></span></a></li>
+				<li class="li-has-multiline"><a>Build version<span
+						class="li-text-sub ui-li-sub-text" id="buildVersion"></span></a></li>
+
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="wifiPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Wifi</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a>Status<span
+						class="li-text-sub ui-li-sub-text" id="wifiStatus"></span></a></li>
+				<li class="li-has-multiline"><a>SSID<span
+						class="li-text-sub ui-li-sub-text" id="wifiSSID"></span></a></li>
+				<li class="li-has-multiline"><a>IP<span
+						class="li-text-sub ui-li-sub-text" id="wifiIP"></span></a></li>
+				<li class="li-has-multiline"><a>IPV6<span
+						class="li-text-sub ui-li-sub-text" id="wifiIPV6"></span></a></li>
+				<li class="li-has-multiline"><a>Signal strength<span
+						class="li-text-sub ui-li-sub-text" id="wifiSignal"></span></a></li>
+				<li class="li-has-multiline"><a>MAC<span
+						class="li-text-sub ui-li-sub-text" id="wifiMAC"></span></a></li>
+
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="cellularPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Cellular</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a>Status<span
+						class="li-text-sub ui-li-sub-text" id="celStatus"></span></a></li>
+				<li class="li-has-multiline"><a>APN<span
+						class="li-text-sub ui-li-sub-text" id="celAPN"></span></a></li>
+				<li class="li-has-multiline"><a>IP<span
+						class="li-text-sub ui-li-sub-text" id="celIP"></span></a></li>
+				<li class="li-has-multiline"><a>IPV6<span
+						class="li-text-sub ui-li-sub-text" id="celIPV6"></span></a></li>
+				<li class="li-has-multiline"><a>MCC<span
+						class="li-text-sub ui-li-sub-text" id="celMCC"></span></a></li>
+				<li class="li-has-multiline"><a>MNC<span
+						class="li-text-sub ui-li-sub-text" id="celMNC"></span></a></li>
+				<li class="li-has-multiline"><a>ID<span
+						class="li-text-sub ui-li-sub-text" id="celID"></span></a></li>
+				<li class="li-has-multiline"><a>LAC<span
+						class="li-text-sub ui-li-sub-text" id="celLAC"></span></a></li>
+
+				<li class="li-has-thumb-right"><label>Roaming<!-- <img
+						id="celRoaming"   class="ui-li-thumb-right" /> -->
+						<img id="celRoaming" class="ui-li-thumb-right"/></label></li>
+
+				<li class="li-has-thumb-right"><label>Flight mode<!-- <img
+						 class="ui-li-thumb-right"  id="celFlightMode"> -->
+						<img id="celFlightMode" class="ui-li-thumb-right"/></label></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="peripheralPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Peripheral</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-thumb-right"><label>Bluetooth<img
+						id="perBluetooth" class="ui-li-thumb-right"/></label></li>
+				<li class="li-has-thumb-right"><label>NFC<img
+						id="perNfc"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>WIFI<img
+						id="perWifi" class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>WIFI Direct<img
+						id="perWifiDirect"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>FM Radio<img
+						id="perFmRadio"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>Telephony<img
+						id="perTelephony"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>SMS<img
+						id="perTelephonySms"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>MMS<img
+						id="perTelephonyMms"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Camera<img
+						id="perCamera"  class="ui-li-thumb-right"/></label></li>
+				<li class="li-has-thumb-right"><label>Front camera<img
+						id="perCameraFront"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>Front flash<img
+						id="perCameraFrontFlash"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>Back camera<img
+						id="perCameraBack"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>Back flash<img
+						id="perCameraBackFlash"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Image<span
+						class="li-text-sub ui-li-sub-text">recognition</span><img
+						id="perImageRecog"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Face<span
+						class="li-text-sub ui-li-sub-text">recognition</span><img
+						id="perFaceRecog"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>QRcode<span
+						class="li-text-sub ui-li-sub-text">generation</span><img
+						id="perQrGen"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>QRCode<span
+						class="li-text-sub ui-li-sub-text">recognition</span><img
+						id="perQrRecog"  class="ui-li-thumb-right" /></label></li>
+
+
+				<li class="li-has-thumb-right li-has-multiline"><label>Location<span
+						class="ui-li-sub-text li-text-sub">CPS</span><img
+						id="perLocationCps"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Location<span
+						class="ui-li-sub-text li-text-sub">GPS</span><img
+						id="perLocationGps"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Location<span
+						class="ui-li-sub-text li-text-sub">WPS</span><img
+						id="perLocationWpf"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Microphone<img
+						id="perMic"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>USB<span
+						class="li-text-sub ui-li-sub-text">host support</span><img
+						id="perUsbHost"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>USB<span
+						class="li-text-sub ui-li-sub-text">accessory support</span><img
+						id="perUsbAcc"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>RCA output<img
+						id="perRCA"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>HDMI output<img
+						id="perHDMI"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Accelorometer<img
+						id="perAccelorometer"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Accelorometer<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						id="perAccelorometerWakeup"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Barometer<img
+						id="perBarometer"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Barometer<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						 id="perBarometerWakeup"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Gyroscope<img
+						 id="perGyroscope"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Gyroscope<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						 id="perGyroscopeWakeup"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Magnetometer<img
+						 id="perMagnetometer"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Magnetometer<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						 id="perMagnetometerWakeup"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Photometer<img
+						 id="perPhotometer"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Photometer<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						 id="perPhotometerWakeup"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Proximity<img
+						 id="perProximity"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Proximity<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						 id="perProximityWakeup"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-thumb-right"><label>Tiltmeter<img
+						 id="perTiltmeter"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Tiltmeter<span
+						class="li-text-sub ui-li-sub-text">Wake-up feature</span><img
+						 id="perTiltmeterWakeup"  class="ui-li-thumb-right" /></label></li>
+
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="otherPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Other</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+
+				<li class="li-has-thumb-right li-has-multiline"><label>Graphics<span
+						class="li-text-sub ui-li-sub-text">Hardware acceleration</span><img
+						 id="graphicsAcc"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><label>OpenGL-ES<img
+						 id="opengles"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right"><a>OpenGL-ES<span
+						class="li-text-sub ui-li-sub-text" id="openglesversion"></span></a></li>
+				<li class="li-has-thumb-right"><a>OpenGL-ES<span
+						class="li-text-sub ui-li-sub-text" id="openglestextureFormat"></span></a></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Speech<span
+						class="li-text-sub ui-li-sub-text">recognition</span><img
+						 id="speechRec"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Speech<span
+						class="li-text-sub ui-li-sub-text">synthesis</span><img
+						 id="speechSyn"  class="ui-li-thumb-right" /></label></li>
+				<li class="li-has-thumb-right li-has-multiline"><label>Support<span
+						class="li-text-sub ui-li-sub-text">data encryption</span><img
+						 id="dataEnc"  class="ui-li-thumb-right" />
+				</label></li>
+				<li class="li-has-thumb-right"><label>Push service<img
+						 id="pushSupport"  class="ui-li-thumb-right" /></label></li>
+
+				<li class="li-has-multiline"><a>Language<span
+						class="li-text-sub ui-li-sub-text" id="lang"></span></a></li>
+				<li class="li-has-multiline"><a>Country<span
+						class="li-text-sub ui-li-sub-text" id="country"></span></a></li>
+				<li class="li-has-multiline li-has-thumb-right">VOIP<span
+						class="li-text-sub ui-li-sub-text">support</span><img
+						 id="voipsupport"  class="ui-li-thumb-right" /></li>
+				<!-- <li class="li-has-multiline"><a>Network<span
+						class="li-text-sub ui-li-sub-text" id="currentNet"></span></a></li> -->
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-page" id="simPage">
+		<header class="ui-header ui-header-small">
+			<h2 class="ui-title">Sim</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview">
+				<li class="li-has-multiline"><a>State<span
+						class="li-text-sub ui-li-sub-text" id="simState"></span></a></li>
+				<li class="li-has-multiline"><a>Operator name<span
+						class="li-text-sub ui-li-sub-text" id="simOpName"></span></a></li>
+
+				<li class="li-has-multiline"><a>ICCID<span
+						class="li-text-sub ui-li-sub-text" id="simICCID"></span></a></li>
+
+				<li class="li-has-multiline"><a>MCC<span
+						class="li-text-sub ui-li-sub-text" id="simMCC"></span></a></li>
+
+				<li class="li-has-multiline"><a>MNC<span
+						class="li-text-sub ui-li-sub-text" id="simMNC"></span></a></li>
+
+				<li class="li-has-multiline"><a>SPN<span
+						class="li-text-sub ui-li-sub-text" id="simSPN"></span></a></li>
+
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
