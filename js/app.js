@@ -88,7 +88,10 @@ function loadInfo() {
 			lowThreshold : 1
 		});
 
-		var cap = tizen.systeminfo.getCapabilities(), main = document.getElementById("main"), mainContent = $("#mainContent");
+		// TODO GetCapabilities deprecated since 2.3. Instead use gatCapability()
+		var cap = tizen.systeminfo.getCapabilities()
+		var main = document.getElementById("main")
+		var mainContent = $("#mainContent");
 
 		main.addEventListener("pagebeforehide", function() {
 			listScroll = mainContent.scrollTop();
@@ -199,9 +202,9 @@ function loadInfo() {
 				list.append('<li class="li-has-multiline"><a>Capacity<span class="li-text-sub ui-li-sub-text">' + Utils.bytesToSize(store.units[i].capacity + store.units[i].availableCapacity) + '</span></a></li>');
 				list.append('<li class="li-has-multiline"><a>Available<span class="li-text-sub ui-li-sub-text">' + Utils.bytesToSize(store.units[i].availableCapacity) + '</span></a></li>');
 				if (store.units[i].isRemovable === true) {
-					list.append('<li class="li-has-thumb-right"><label>Removable<img src="images/check.png" class="ui-li-thumb-right has-function" /></label></li>');
+					list.append('<li class="li-has-thumb-right">Removable<img src="/images/check.png" class="ui-li-thumb-right has-function" /></li>');
 				} else {
-					list.append('<li class="li-has-thumb-right"><label>Removable<img src="images/delete.png" class="ui-li-thumb-right has-function"  /></label></li>');
+					list.append('<li class="li-has-thumb-right">Removable<img src="/images/delete.png" class="ui-li-thumb-right has-function"  /></li>');
 				}
 			}
 		});

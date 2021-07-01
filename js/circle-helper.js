@@ -1,48 +1,71 @@
 /*global tau */
 /*jslint unparam: true */
-(function(tau) {
-	var page,
-		elScroller,
-		list,
-		listHelper = [],
-		snapList = [],
-		i, len;
+document.addEventListener("tauinit", function () {
 
+	// This logic works only on circular device.
 	if (tau.support.shape.circle) {
-		document.addEventListener("pagebeforeshow", function (e) {
-			page = e.target;
-			elScroller = page.querySelector(".ui-scroller");
-			if (elScroller) {
-				list = elScroller.querySelectorAll(".ui-listview");
+		/**
+		 * pagebeforeshow event handler
+		 * Do preparatory works and adds event listeners
+		 */
+		document.addEventListener("pagebeforeshow", function (event) {
+			/**
+			 * page - Active page element
+			 * list - NodeList object for lists in the page
+			 */
+			var page = event.target,
+				pageWidget = tau.widget.Page(page),
+				pageId = page.id,
+				list;
+
+			if (pageWidget.option("enablePageScroll")) {
+				if (page.classList.contains("ui-scrollhandler")) {
+					tau.util.rotaryScrolling.enable(page);
+				} else {
+					tau.util.rotaryScrolling.enable(page.querySelector(".ui-scroller"));
+				}
+			}
+
+			if (!page.classList.contains("page-snaplistview") &&
+				pageId !== "page-snaplistview" &&
+				pageId !== "page-swipelist" &&
+				pageId !== "page-marquee-list" &&
+				pageId !== "page-multiline-list" &&
+				pageId !== "assist-panel-page") {
+				list = page.querySelector(".ui-listview");
 				if (list) {
-					if (page.id !== "pageMarqueeList" && page.id !== "pageTestVirtualList" && page.id !== "pageAnimation") {
-						len = list.length;
-						for (i = 0; i < len; i++) {
-							listHelper[i] = tau.helper.SnapListStyle.create(list[i]);
-						}
-						len = listHelper.length;
-						if (len) {
-							for (i = 0; i < len; i++) {
-								snapList[i] = listHelper[i].getSnapList();
-							}
-						}
-					}
-					elScroller.setAttribute("tizen-circular-scrollbar", "");
+					tau.widget.Listview(list);
+				}
+			}
+		}, true);
+		document.addEventListener("pagebeforehide", function (event) {
+			var page = event.target,
+				pageWidget = tau.widget.Page(page);
+
+			if (pageWidget.option("enablePageScroll")) {
+				if (page.classList.contains("ui-scrollhandler")) {
+					tau.util.rotaryScrolling.disable(page);
+				} else {
+					tau.util.rotaryScrolling.disable(page.querySelector(".ui-scroller"));
 				}
 			}
 		});
+		document.addEventListener("popupshow", function (event) {
+			var popup = event.target,
+				list = popup.querySelector(".ui-listview");
 
-		document.addEventListener("pagebeforehide", function () {
-			len = listHelper.length;
-			if (len) {
-				for (i = 0; i < len; i++) {
-					listHelper[i].destroy();
-				}
-				listHelper = [];
+			if (list) {
+				tau.widget.Listview(list);
 			}
-			if(elScroller) {
-				elScroller.removeAttribute("tizen-circular-scrollbar");
+			tau.util.rotaryScrolling.enable(popup.querySelector(".ui-popup-wrapper"));
+		});
+		document.addEventListener("popuphide", function () {
+			var list = event.target.querySelector(".ui-listview");
+
+			if (list) {
+				tau.engine.getBinding(list).destroy();
 			}
+			tau.util.rotaryScrolling.disable();
 		});
 	}
-}(tau));
+});
